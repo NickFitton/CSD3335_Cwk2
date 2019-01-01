@@ -14,9 +14,9 @@ export class AppComponent {
   data: DataModel[];
   measurements: MeasurementModel[];
   areas: string[];
-  dataset: DataModel[];
+  dataset: DataModel[][];
   measure: MeasurementModel;
-  selectedArea: string;
+  selectedAreas: string[];
 
   constructor() {
     this.data = [];
@@ -153,10 +153,14 @@ export class AppComponent {
   }
 
   generateGraph() {
-    if (this.measure.measure !== '' && this.selectedArea !== '') {
-      this.dataset = this.data
-        .filter(item => item.location.startsWith(this.selectedArea))
-        .filter(item => item.measure.startsWith(this.measure.measure));
+    if (this.measure.measure !== '' && this.selectedAreas.length > 0) {
+      const results: DataModel[][] = [];
+      for (const area of this.selectedAreas) {
+        results.push(this.data
+          .filter(item => item.location.startsWith(area))
+          .filter(item => item.measure.startsWith(this.measure.measure)));
+      }
+      this.dataset = results;
     }
   }
 }

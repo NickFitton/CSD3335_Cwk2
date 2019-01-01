@@ -5,29 +5,48 @@ import {DataModel} from '../../model/data.model';
 
 @Component({
   selector: 'app-chartjsline-graph-component',
-  templateUrl: './line.component.html'
+  templateUrl: './line.component.html',
+  styleUrls: ['./line.component.styl']
 })
 export class LineComponent implements OnInit {
 
   chartType: string;
-  chart: Chart;
+  charts: Chart[];
+  canvasIds: string[];
 
   constructor() {
+    this.charts = [];
+    this.canvasIds = [
+      'canvas0',
+      'canvas1',
+      'canvas2',
+      'canvas3',
+      'canvas4',
+      'canvas5',
+      'canvas6',
+      'canvas7',
+      'canvas8',
+      'canvas9'
+    ];
     this.chartType = 'line';
   }
 
   @Input()
-  set dataPoints(data: DataModel[]) {
-    this.setDataPoints(data);
+  set dataPoints(data: DataModel[][]) {
+    let pointer = 0;
+    while (data.length > pointer && this.canvasIds.length > pointer) {
+      this.setDataPoints(data[pointer], this.charts[pointer], this.canvasIds[pointer]);
+      pointer++;
+    }
   }
 
   @Input()
   set graphType(type: string) {
     if (type !== undefined) {
       this.chartType = type;
-      if (this.chart !== undefined) {
-        this.chart.config.type = type;
-        this.chart.update();
+      for (const chart of this.charts) {
+        chart.config.type = type;
+        chart.update();
       }
     }
   }
@@ -52,9 +71,10 @@ export class LineComponent implements OnInit {
   ngOnInit() {
   }
 
-  setDataPoints(input: DataModel[]) {
-    if (this.chart !== undefined) {
-      this.chart.destroy();
+  setDataPoints(input: DataModel[], chart: Chart, chartName: string) {
+    console.log(input);
+    if (chart !== undefined) {
+      chart.destroy();
     }
 
     let bars: LineModel[] = LineComponent.convertToBars(input);
@@ -67,8 +87,8 @@ export class LineComponent implements OnInit {
       data = bars.map(bar => bar.value);
     }
 
-    this.chart = new Chart(
-      'canvas',
+    chart = new Chart(
+      chartName,
       {
         type: this.chartType,
         data: {
@@ -77,10 +97,10 @@ export class LineComponent implements OnInit {
             {
               data: data,
               borderWidth: 1,
-              borderColor: '#ff0000',
-              backgroundColor: '#ff7d7d',
-              fill: true,
-              pointRadius: 0
+              borderColor: this.getRandomColor(),
+              fill: false,
+              pointRadius: 0,
+              lineTension: 0
             }
           ]
         },
@@ -100,6 +120,15 @@ export class LineComponent implements OnInit {
           }
         }
       });
-    this.chart.update(1);
+    chart.update(1);
+  }
+
+  getRandomColor() {
+    const letters = '3456789ABC';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
   }
 }
