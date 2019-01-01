@@ -1,18 +1,38 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div *ngIf="data.length==0 || measurements.length==0">
-    <h2>Load files</h2>
-    <div>
-        <h3>Dataset</h3>
-        <input *ngIf="data.length==0" type="file" (change)="loadData($event)"/>
-        <span *ngIf="data.length>0">Data loaded</span>
+  <h2>Load files</h2>
+  <div class="file_upload">
+    <div class="file_upload__item">
+      <h3>Dataset</h3>
+      <input *ngIf="data.length==0" type="file" (change)="loadData($event)"/>
+      <span *ngIf="data.length>0">Data loaded</span>
     </div>
-    <div>
-        <h3>Measurements</h3>
-        <input *ngIf="measurements.length==0" type="file" (change)="loadMeasurements($event)"/>
-        <span *ngIf="measurements.length>0">Measurements loaded</span>
+    <div class="file_upload__item">
+      <h3>Measurements</h3>
+      <input *ngIf="measurements.length==0" type="file" (change)="loadMeasurements($event)"/>
+      <span *ngIf="measurements.length>0">Measurements loaded</span>
     </div>
+  </div>
 </div>
 <div *ngIf="data.length>0 && measurements.length>0">
-    <p>Dataset received is {{data.length}} lines long</p>
-    <p>Measurement definitions received is {{measurements.length}} lines long</p>
+  <p>Dataset received is {{data.length}} lines long</p>
+  <p>Measurement definitions received is {{measurements.length}} lines long</p>
+
+  <h2>Measure Stuff</h2>
+  <mat-form-field>
+    <mat-select placeholder="Measurement" [(ngModel)]="measure">
+      <mat-option *ngFor="let measure of measurements" [(value)]="measure">
+        {{measure.measure}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Area" [(ngModel)]="selectedArea">
+      <mat-option *ngFor="let area of areas" [(value)]="area">
+        {{area}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-flat-button (click)="generateGraph()">Generate Graph</button>
+  <app-chartjsline-graph-component [dataPoints]="dataset" [graphType]="line">
+  </app-chartjsline-graph-component>
 </div>
