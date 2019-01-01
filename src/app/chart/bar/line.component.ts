@@ -72,7 +72,6 @@ export class LineComponent implements OnInit {
   }
 
   setDataPoints(input: DataModel[], chart: Chart, chartName: string) {
-    console.log(input);
     if (chart !== undefined) {
       chart.destroy();
     }

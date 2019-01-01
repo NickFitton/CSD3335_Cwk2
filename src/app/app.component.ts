@@ -25,6 +25,7 @@ export class AppComponent {
   }
 
   loadData(event) {
+    console.info('Loading file');
     const reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
@@ -37,6 +38,7 @@ export class AppComponent {
         const lines: string[] = content.split('\n');
 
         if (lines[0].startsWith('id,value,location,sample date,measure')) {
+          console.log('Here');
           this.data = this.parseData(lines);
           this.areas = this.unique(this.data.map(item => item.location));
           console.log('Dataset loaded');
@@ -91,7 +93,6 @@ export class AppComponent {
     if (params.length !== 5) {
       return null;
     }
-    // const date = moment(params[3], 'DD-MMM-YY').toDate();
     const date = new Date(params[3]);
     return new DataModel(parseInt(params[0], 10), parseFloat(params[1]), params[2], date, params[4]);
   }

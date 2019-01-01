@@ -17,25 +17,27 @@
   <p>Dataset received is {{data.length}} lines long</p>
   <p>Measurement definitions received is {{measurements.length}} lines long</p>
 
-  <h2>Measure Stuff</h2>
-  <mat-form-field>
-    <mat-select placeholder="Measurement" [(ngModel)]="measure">
-      <mat-option *ngFor="let measure of measurements" [(value)]="measure">
-        {{measure.measure}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder="Area" [(ngModel)]="selectedAreas" multiple>
-      <mat-option *ngFor="let area of areas" [(value)]="area">
-        {{area}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button mat-flat-button (click)="generateGraph()">Generate Graph</button>
-  <span>Sets selected: {{dataset.length}}</span>
-  <div>
-    <app-chartjsline-graph-component [dataPoints]="dataset" [graphType]="line">
-    </app-chartjsline-graph-component>
-  </div>
+  <!--<h2>Measure Stuff</h2>-->
+  <!--<mat-form-field>-->
+    <!--<mat-select placeholder="Measurement" [(ngModel)]="measure">-->
+      <!--<mat-option *ngFor="let measure of measurements" [(value)]="measure">-->
+        <!--{{measure.measure}}-->
+      <!--</mat-option>-->
+    <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--<mat-form-field>-->
+    <!--<mat-select placeholder="Area" [(ngModel)]="selectedAreas" multiple>-->
+      <!--<mat-option *ngFor="let area of areas" [(value)]="area">-->
+        <!--{{area}}-->
+      <!--</mat-option>-->
+    <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--<button mat-flat-button (click)="generateGraph()">Generate Graph</button>-->
+  <!--<span>Sets selected: {{dataset.length}}</span>-->
+  <!--<app-chartjsline-graph-component [dataPoints]="dataset" [graphType]="line">-->
+  <!--</app-chartjsline-graph-component>-->
+
+  <app-chartjs-temperature-graph-component [dataPoints]="data" [existingAreas]="areas">
+  </app-chartjs-temperature-graph-component>
+
 </div>
