@@ -13,6 +13,7 @@ export class LineComponent implements OnInit {
   chartType: string;
   charts: Chart[];
   canvasIds: string[];
+  divIds: string[];
 
   constructor() {
     this.charts = [];
@@ -28,14 +29,33 @@ export class LineComponent implements OnInit {
       'canvas8',
       'canvas9'
     ];
+    this.divIds = [
+      'div0',
+      'div1',
+      'div2',
+      'div3',
+      'div4',
+      'div5',
+      'div6',
+      'div7',
+      'div8',
+      'div9'
+    ];
     this.chartType = 'line';
   }
 
   @Input()
   set dataPoints(data: DataModel[][]) {
     let pointer = 0;
+    for (const id of this.divIds) {
+      const div = document.getElementById(id);
+      div.style.display = 'none';
+    }
     while (data.length > pointer && this.canvasIds.length > pointer) {
       this.setDataPoints(data[pointer], this.charts[pointer], this.canvasIds[pointer]);
+      const div = document.getElementById(this.divIds[pointer]);
+      div.style.display = 'block';
+      div.style.width = '50%';
       pointer++;
     }
   }

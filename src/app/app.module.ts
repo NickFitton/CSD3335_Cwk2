@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LineComponent} from './chart/bar/line.component';
-import {MatNativeDateModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatNativeDateModule, MatSelectModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TemperatureComponent} from './chart/temperature/temperature.component';
@@ -28,6 +28,8 @@ import {TemperatureComponent} from './chart/temperature/temperature.component';
     BrowserAnimationsModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatCardModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {DataModel} from './model/data.model';
 import {MeasurementModel} from './model/measurement.model';
-import * as Chart from 'chart.js';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',

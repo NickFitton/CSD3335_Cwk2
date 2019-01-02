@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LineModel} from '../bar/line.model';
 import * as Chart from 'chart.js';
 import {DataModel} from '../../model/data.model';
 import {PointModel} from './point.model';
+import * as ColorConvert from 'color-convert';
 
 @Component({
   selector: 'app-chartjs-temperature-graph-component',
@@ -19,9 +19,6 @@ export class TemperatureComponent implements OnInit {
     this.chartType = 'scatter';
   }
 
-  ngOnInit() {
-  }
-
   @Input()
   set existingAreas(areas: string[]) {
     this.areas = areas;
@@ -36,6 +33,9 @@ export class TemperatureComponent implements OnInit {
         .filter(item => item.measure.toLocaleLowerCase().startsWith('water temperature')));
     }
     this.setDataPoints(areaData);
+  }
+
+  ngOnInit() {
   }
 
   convertToPoints(data: DataModel[]): PointModel[] {
@@ -58,17 +58,18 @@ export class TemperatureComponent implements OnInit {
 
   setDataPoints(input: DataModel[][]) {
     const datasets = [];
+    const colors = this.generateColors(input.length);
     for (let i = 0; i < input.length; i++) {
       input[i] = this.sortDataPoints(input[i]);
       const points: PointModel[] = this.convertToPoints(input[i]);
-      const randomColor = this.getRandomColor();
       datasets.push({
         label: this.areas[i],
-        labelColor: randomColor,
+        labelColor: colors[i],
         data: points,
         pointRadius: 2,
-        backgroundColor: randomColor,
-        borderWidth: 0
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
       });
     }
 
@@ -89,12 +90,17 @@ export class TemperatureComponent implements OnInit {
     this.chart.update(1);
   }
 
-  getRandomColor() {
-    const letters = '3456789ABC';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * letters.length)];
+  generateColors(count: number): string[][] {
+    const colors: string[][] = [];
+    for (let i = 0; i < count; i++) {
+      const hue = Math.floor(((i + 1) / count) * 360);
+      const rgbLight = ColorConvert.hsv.rgb([hue, 75, 95]);
+      const rgbDark = ColorConvert.hsv.rgb([hue, 80, 90]);
+      const light = `#${rgbLight[0].toString(16)}${rgbLight[1].toString(16)}${rgbLight[2].toString(16)}`;
+      const dark = `#${rgbDark[0].toString(16)}${rgbDark[1].toString(16)}${rgbDark[2].toString(16)}`;
+      colors.push([light, dark]);
     }
-    return color;
+    console.log(colors);
+    return colors;
   }
 }
