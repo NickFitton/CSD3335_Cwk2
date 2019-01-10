@@ -5,6 +5,7 @@ import * as Chart from 'chart.js';
 import * as ColorConvert from 'color-convert';
 import {FindingModel} from './finding.model';
 import {DatePoint} from './datePoint';
+import {TallyModel} from './tally.model';
 
 @Component({
   selector: 'app-findings',
@@ -12,6 +13,19 @@ import {DatePoint} from './datePoint';
   styleUrls: ['./findings.component.styl']
 })
 export class FindingsComponent implements OnInit {
+
+  allAreas: string[] = [
+    'Boonsri',
+    'Kannika',
+    'Chai',
+    'Kohsoom',
+    'Somchair',
+    'Sakda',
+    'Busarakhan',
+    'Tansanee',
+    'Achara',
+    'Decha'
+  ];
 
   dataset: DataModel[];
   areas: string[];
@@ -21,8 +35,12 @@ export class FindingsComponent implements OnInit {
   finding3Chart: Chart;
   finding4Chart: Chart;
   finding5Chart: Chart;
+  anomaly1Chart: Chart;
+  anomaly2Chart: Chart;
+  anomaly3Chart: Chart;
 
   findings: FindingModel[];
+  anomalies: FindingModel[];
 
   datasetSize: number;
   areaSize: number;
@@ -31,6 +49,7 @@ export class FindingsComponent implements OnInit {
     this.areas = [];
     this.dataset = [];
     this.findings = [];
+    this.anomalies = [];
     this.findings.push(new FindingModel('Finding 1',
       'Temperature yearly circadian rhythm',
       [
@@ -65,6 +84,27 @@ export class FindingsComponent implements OnInit {
         ' The spikes indicate the levels were 20-37g/l maybe this was an event of dumping but as the spike only' +
         ' occurred in one reading so this may be due to a faulty sensor.'
       ]));
+    this.anomalies.push(new FindingModel('Anomaly 1',
+      'Chai water measurements',
+      [
+        'The consistency of water measurements in Chai shot up and other locations did not do the same.',
+        'I chose to use a scatter plot for this graph as I felt that a line graph didn\'t properly' +
+        ' represent the consistency without the point markers.',
+        'Also included is the measurements for Boonsri for a comparison of the consistencies'
+      ]));
+    this.anomalies.push(new FindingModel('Anomaly 2',
+      'Chai COD-Cr measurements',
+      [
+        'COD-Cr in Chai was not recorded between May 2005 and July 2006.',
+        'This may be due to a broken sensor, the readings were erratic before and after the lack of recordings.'
+      ]));
+    this.anomalies.push(new FindingModel('Anomaly 3',
+      'Missing data',
+      [
+        'There are no reading for Nickel from 2000 to the end of 2001.',
+        'This may be due to either the data being missing or a malicious entity removing the data.',
+        'I chose to use a bar graph for this result because show the missing data unlike a line graph which would draw over the space.'
+      ]));
   }
 
   ngOnInit() {
@@ -96,6 +136,9 @@ export class FindingsComponent implements OnInit {
     this.finding3(this.dataset);
     this.finding4(this.dataset);
     this.finding5(this.dataset);
+    this.anomaly1(this.dataset);
+    this.anomaly2(this.dataset);
+    this.anomaly3(this.dataset);
   }
 
   finding1(data: DataModel[]) {
@@ -156,7 +199,7 @@ export class FindingsComponent implements OnInit {
       for (let i = 0; i < areaData.length; i++) {
         const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
         datasets.push({
-          label: this.areas[i],
+          label: desiredAreas[i],
           labelColor: colors[i],
           data: points,
           pointRadius: 2,
@@ -195,26 +238,26 @@ export class FindingsComponent implements OnInit {
       materialData.push(data.filter(item => item.measure.toLowerCase().startsWith(material.toLowerCase())));
     }
 
-      const areaData: DataModel[][] = [];
-      for (const area of desiredAreas) {
-        areaData.push(materialData[0]
-          .filter(item => item.location.toLowerCase().startsWith(area)));
-      }
-      const datasets = [];
-      const colors = this.generateColors(areaData.length);
-      console.log(areaData.length);
-      for (let i = 0; i < areaData.length; i++) {
-        const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
-        datasets.push({
-          label: this.areas[i],
-          labelColor: colors[i],
-          data: points,
-          pointRadius: 2,
-          backgroundColor: colors[i][0],
-          borderColor: colors[i][1],
-          borderWidth: 1
-        });
-      }
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(materialData[0]
+        .filter(item => item.location.toLowerCase().startsWith(area)));
+    }
+    const datasets = [];
+    const colors = this.generateColors(areaData.length);
+    console.log(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
 
 
     this.finding3Chart = this.defineLongTimeScatterChart(datasets, [], 'finding3', 'scatter');
@@ -234,26 +277,26 @@ export class FindingsComponent implements OnInit {
       materialData.push(data.filter(item => item.measure.toLowerCase().startsWith(material.toLowerCase())));
     }
 
-      const areaData: DataModel[][] = [];
-      for (const area of desiredAreas) {
-        areaData.push(materialData[0]
-          .filter(item => item.location.toLowerCase().startsWith(area)));
-      }
-      const datasets = [];
-      const colors = this.generateColors(areaData.length);
-      console.log(areaData.length);
-      for (let i = 0; i < areaData.length; i++) {
-        const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
-        datasets.push({
-          label: this.areas[i],
-          labelColor: colors[i],
-          data: points,
-          pointRadius: 2,
-          backgroundColor: colors[i][0],
-          borderColor: colors[i][1],
-          borderWidth: 1
-        });
-      }
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(materialData[0]
+        .filter(item => item.location.toLowerCase().startsWith(area)));
+    }
+    const datasets = [];
+    const colors = this.generateColors(areaData.length);
+    console.log(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
 
 
     this.finding4Chart = this.defineLongTimeScatterChart(datasets, [], 'finding4', 'bar');
@@ -278,30 +321,134 @@ export class FindingsComponent implements OnInit {
       materialData.push(data.filter(item => item.measure.toLowerCase().startsWith(material.toLowerCase())));
     }
 
-      const areaData: DataModel[][] = [];
-      for (const area of desiredAreas) {
-        areaData.push(materialData[0]
-          .filter(item => item.location.toLowerCase().startsWith(area)));
-      }
-      const datasets = [];
-      const colors = this.generateColors(areaData.length);
-      console.log(areaData.length);
-      for (let i = 0; i < areaData.length; i++) {
-        const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
-        datasets.push({
-          label: this.areas[i],
-          labelColor: colors[i],
-          data: points,
-          pointRadius: 2,
-          backgroundColor: colors[i][0],
-          borderColor: colors[i][1],
-          borderWidth: 1
-        });
-      }
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(materialData[0]
+        .filter(item => item.location.toLowerCase().startsWith(area)));
+    }
+    const datasets = [];
+    const colors = this.generateColors(areaData.length);
+    console.log(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
 
 
     this.finding5Chart = this.defineLongTimeScatterChart(datasets, [], 'finding5', 'line');
     this.finding5Chart.update(1);
+  }
+
+  anomaly1(data: DataModel[]) {
+    const materialData: DataModel[][] = [];
+    const materials = [
+      'water temperature'
+    ];
+    const desiredAreas = [
+      'boonsri',
+      'chai'
+    ];
+
+    for (const material of materials) {
+      materialData.push(data.filter(item => item.measure.toLowerCase().startsWith(material.toLowerCase())));
+    }
+
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(materialData[0]
+        .filter(item => item.location.toLowerCase().startsWith(area)));
+    }
+    const datasets = [];
+    const colors = this.generateColors(areaData.length);
+    console.log(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
+
+
+    this.anomaly1Chart = this.defineLongTimeScatterChart(datasets, [], 'anomaly1', 'scatter');
+    this.anomaly1Chart.update(1);
+  }
+
+  anomaly2(data: DataModel[]) {
+    const material = 'Chemical Oxygen Demand (Cr)';
+    const desiredArea = 'chai';
+
+    const chaiChems = data.filter(item => item.measure.toLowerCase().startsWith(material.toLowerCase()))
+      .filter(item => item.location.toLowerCase().startsWith(desiredArea.toLowerCase()));
+
+    const months: Map<string, TallyModel> = new Map();
+    for (const point of chaiChems) {
+      const pointMonth = `${point.sampleDate.getUTCFullYear()}`;
+      if (months.has(pointMonth)) {
+        months.set(pointMonth, months.get(pointMonth).increment());
+      } else {
+        months.set(pointMonth, new TallyModel(new Date(point.sampleDate.getUTCFullYear(), 1, 1)));
+      }
+    }
+
+    const monthValues = Array.from(months.values());
+    console.log(monthValues.length);
+    const color = this.generateColors(2)[0];
+
+    this.anomaly2Chart = this.defineLongTimeScatterChart([{
+      label: 'quantity',
+      labelColor: color,
+      data: monthValues.map(tally => tally.toChart()),
+      backgroundColor: color[0],
+      borderColor: color[1],
+      borderWidth: 1
+    }], [], 'anomaly2', 'bar');
+  }
+
+  anomaly3(data: DataModel[]) {
+    const materials = [
+      'nickel'
+    ];
+
+    const nickelPoints = data.filter(item => item.measure.toLowerCase().startsWith(materials[0].toLowerCase()));
+
+    const months: Map<string, TallyModel> = new Map();
+    for (const point of nickelPoints) {
+      const pointMonth = `${point.sampleDate.getUTCFullYear()}`;
+      if (months.has(pointMonth)) {
+        months.set(pointMonth, months.get(pointMonth).increment());
+      } else {
+        months.set(pointMonth, new TallyModel(new Date(point.sampleDate.getUTCFullYear(), 1, 1)));
+      }
+    }
+
+    const monthValues = Array.from(months.values());
+    console.log(monthValues.length);
+    const color = this.generateColors(2)[0];
+
+
+    this.anomaly3Chart = this.defineLongTimeScatterChart([{
+      label: 'quantity',
+      labelColor: color,
+      data: monthValues.map(tally => tally.toChart()),
+      backgroundColor: color[0],
+      borderColor: color[1],
+      borderWidth: 1
+    }], [], 'anomaly3', 'bar');
+    this.anomaly3Chart.update(1);
   }
 
   convertToFullYearPoints(data: DataModel[]): DatePoint[] {

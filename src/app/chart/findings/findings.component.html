@@ -1,3 +1,5 @@
+<h1>Preamble</h1>
+<p>I have used <a href="https://www.chartjs.org/">chart.js</a> to generate the following charts, with any chart that has a legend, the locations can be toggled on the chart by clicking the location on the key.</p>
 <h1>Question 1 - Trends</h1>
 <div class="halfs">
   <div class="findings-text">
@@ -31,6 +33,31 @@
     <div class="halfsize">
       <canvas id="finding5"></canvas>
       <span>Finding 5 - Iron levels</span>
+    </div>
+  </div>
+</div>
+
+<h1>Question 2 - Anomalies</h1>
+<div class="halfs">
+  <div class="findings-text">
+    <div *ngFor="let finding of anomalies">
+      <h2>{{finding.title}}</h2>
+      <h3>{{finding.summary}}</h3>
+      <p *ngFor="let paragraph of finding.paragraphs">{{paragraph}}</p>
+    </div>
+  </div>
+  <div class="findings-graphs">
+    <div class="halfsize">
+      <canvas id="anomaly1"></canvas>
+      <span>Anomaly 1 reading consistency</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="anomaly2"></canvas>
+      <span>Anomaly 2 irratic data</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="anomaly3"></canvas>
+      <span>Anomaly 3 missing data</span>
     </div>
   </div>
 </div>

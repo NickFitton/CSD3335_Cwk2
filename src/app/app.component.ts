@@ -13,8 +13,6 @@ export class AppComponent {
   measurements: MeasurementModel[];
   areas: string[];
   dataset: DataModel[][];
-  measure: MeasurementModel;
-  selectedAreas: string[];
 
   constructor() {
     this.data = [];
@@ -146,18 +144,6 @@ export class AppComponent {
       return new MeasurementModel(params[0], params[1]);
     } else {
       return null;
-    }
-  }
-
-  generateGraph() {
-    if (this.measure.measure !== '' && this.selectedAreas.length > 0) {
-      const results: DataModel[][] = [];
-      for (const area of this.selectedAreas) {
-        results.push(this.data
-          .filter(item => item.location.startsWith(area))
-          .filter(item => item.measure.startsWith(this.measure.measure)));
-      }
-      this.dataset = results;
     }
   }
 }
