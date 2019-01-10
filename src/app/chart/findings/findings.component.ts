@@ -38,9 +38,13 @@ export class FindingsComponent implements OnInit {
   anomaly1Chart: Chart;
   anomaly2Chart: Chart;
   anomaly3Chart: Chart;
+  birdFinding1Chart: Chart;
+  birdFinding2Chart: Chart;
+  birdFinding3Chart: Chart;
 
   findings: FindingModel[];
   anomalies: FindingModel[];
+  birdFindings: FindingModel[];
 
   datasetSize: number;
   areaSize: number;
@@ -50,6 +54,7 @@ export class FindingsComponent implements OnInit {
     this.dataset = [];
     this.findings = [];
     this.anomalies = [];
+    this.birdFindings = [];
     this.findings.push(new FindingModel('Finding 1',
       'Temperature yearly circadian rhythm',
       [
@@ -105,6 +110,33 @@ export class FindingsComponent implements OnInit {
         'This may be due to either the data being missing or a malicious entity removing the data.',
         'I chose to use a bar graph for this result because show the missing data unlike a line graph which would draw over the space.'
       ]));
+    this.birdFindings.push(new FindingModel('Finding 1',
+      'COD-Cr deters fish',
+      [
+        'COD-Cr represents the oxygen deficiency of water, fish tend to be dettered from living in low oxygen envrironments.',
+        'If the Pipit bird eats wildlife that lives in the water around these areas, they would have to migrate to other locations to eat.',
+        'As seen in the graph, COD-Cr ratings in Tansanee become extremely high, suggesting there will not be much wildlife living there.'
+      ]));
+    this.birdFindings.push(new FindingModel('Finding 2',
+      'Arsenic',
+      [
+        'The current drinking water standard, or Maximum Contaminant Level (MCL), from the U.S. Environmental' +
+        ' Protection Agency (EPA) is 0.010 mg/L or parts per million (ppm).',
+        'Arsenic is a very poisonous chemical that was found to be in multiple locations in the dataset.',
+        'Between 2008 and 2016 arsenic readings have slowly increased in some areas (Chai, Kannika, Sakda, Somchair, Tansanee),' +
+        ' the data between these locations has a strong positive correlation.',
+        'One reading (Tansanee - August 9, 2015) was way over the safe level of Arsenic (10μg) at 17μg,' +
+        ' this may be due to an erroneous reading but is definitely worrying.'
+      ]));
+    this.birdFindings.push(new FindingModel('Finding 3',
+      'Damage to plantlife',
+      [
+        'The water supplies in some locations (Boonsri, Busarakhan, Chai, Kannika, Kohsoom, Sakda, Somchair, Tansanee)' +
+        ' have severe levels of Bicarbonates in the water supply.',
+        'Bicarbonates damage plants that live near the waters, giving the wildlife less vegetation to eat/area to scavenge.',
+        'The data shows a yearly circadian cycle, meaning the cause may be seasonal' +
+        ' or there is a time of year where pollutants are more likely to be produced by entities.'
+      ]));
   }
 
   ngOnInit() {
@@ -139,6 +171,9 @@ export class FindingsComponent implements OnInit {
     this.anomaly1(this.dataset);
     this.anomaly2(this.dataset);
     this.anomaly3(this.dataset);
+    this.birdFinding1(this.dataset);
+    this.birdFinding2(this.dataset);
+    this.birdFinding3(this.dataset);
   }
 
   finding1(data: DataModel[]) {
@@ -195,7 +230,6 @@ export class FindingsComponent implements OnInit {
       }
       let datasets = [];
       const colors = this.generateColors(areaData.length);
-      console.log(areaData.length);
       for (let i = 0; i < areaData.length; i++) {
         const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
         datasets.push({
@@ -245,7 +279,6 @@ export class FindingsComponent implements OnInit {
     }
     const datasets = [];
     const colors = this.generateColors(areaData.length);
-    console.log(areaData.length);
     for (let i = 0; i < areaData.length; i++) {
       const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
       datasets.push({
@@ -284,7 +317,6 @@ export class FindingsComponent implements OnInit {
     }
     const datasets = [];
     const colors = this.generateColors(areaData.length);
-    console.log(areaData.length);
     for (let i = 0; i < areaData.length; i++) {
       const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
       datasets.push({
@@ -328,7 +360,6 @@ export class FindingsComponent implements OnInit {
     }
     const datasets = [];
     const colors = this.generateColors(areaData.length);
-    console.log(areaData.length);
     for (let i = 0; i < areaData.length; i++) {
       const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
       datasets.push({
@@ -368,7 +399,6 @@ export class FindingsComponent implements OnInit {
     }
     const datasets = [];
     const colors = this.generateColors(areaData.length);
-    console.log(areaData.length);
     for (let i = 0; i < areaData.length; i++) {
       const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
       datasets.push({
@@ -405,7 +435,6 @@ export class FindingsComponent implements OnInit {
     }
 
     const monthValues = Array.from(months.values());
-    console.log(monthValues.length);
     const color = this.generateColors(2)[0];
 
     this.anomaly2Chart = this.defineLongTimeScatterChart([{
@@ -436,7 +465,6 @@ export class FindingsComponent implements OnInit {
     }
 
     const monthValues = Array.from(months.values());
-    console.log(monthValues.length);
     const color = this.generateColors(2)[0];
 
 
@@ -449,6 +477,114 @@ export class FindingsComponent implements OnInit {
       borderWidth: 1
     }], [], 'anomaly3', 'bar');
     this.anomaly3Chart.update(1);
+  }
+
+  birdFinding1(data: DataModel[]) {
+    const areaData: DataModel[][] = [];
+    for (const area of this.areas) {
+      areaData.push(data
+        .filter(item => item.location.startsWith(area))
+        .filter(item => item.measure.toLocaleLowerCase().startsWith('chemical oxygen demand (cr)')));
+    }
+    const datasets = [];
+    const colors = this.generateColors(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: this.areas[i],
+        labelColor: colors[i],
+        data: this.sortlines(points),
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
+
+    this.birdFinding1Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding1', 'line');
+    this.birdFinding1Chart.update(1);
+  }
+
+  birdFinding2(data: DataModel[]) {
+    const desiredAreas = [
+      'chai',
+      'kannika',
+      'sakda',
+      'somchair',
+      'tansanee'
+    ];
+
+    const arsenicData = data.filter(item => item.measure.toLowerCase().startsWith('arsenic'));
+    console.log(arsenicData.length);
+
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(arsenicData
+        .filter(item => item.location.toLowerCase().startsWith(area))
+        .filter(item => item.sampleDate.getUTCFullYear() > 2007));
+    }
+    let datasets = [];
+    const colors = this.generateColors(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 2,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 1
+      });
+    }
+    datasets = datasets.filter(aDataset => aDataset.data.length > 0);
+
+
+    this.birdFinding2Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding2', 'scatter');
+    this.birdFinding2Chart.update(1);
+  }
+
+  birdFinding3(data: DataModel[]) {
+    const desiredAreas = [
+      'boonsri',
+      'busarakhan',
+      'chai',
+      'kannika',
+      'kohsoom',
+      'sakda',
+      'somchair',
+      'tansanee'
+    ];
+
+    const arsenicData = data.filter(item => item.measure.toLowerCase().startsWith('bicarbonates'));
+    console.log(arsenicData.length);
+
+    const areaData: DataModel[][] = [];
+    for (const area of desiredAreas) {
+      areaData.push(arsenicData
+        .filter(item => item.location.toLowerCase().startsWith(area))
+        .filter(item => item.sampleDate.getUTCFullYear() > 2007));
+    }
+    let datasets = [];
+    const colors = this.generateColors(areaData.length);
+    for (let i = 0; i < areaData.length; i++) {
+      const points: DatePoint[] = this.convertToFullYearPoints(areaData[i]);
+      datasets.push({
+        label: desiredAreas[i],
+        labelColor: colors[i],
+        data: points,
+        pointRadius: 0,
+        fill: false,
+        backgroundColor: colors[i][0],
+        borderColor: colors[i][1],
+        borderWidth: 2
+      });
+    }
+    datasets = datasets.filter(aDataset => aDataset.data.length > 0);
+
+
+    this.birdFinding3Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding3', 'line');
+    this.birdFinding3Chart.update(1);
   }
 
   convertToFullYearPoints(data: DataModel[]): DatePoint[] {
@@ -531,4 +667,12 @@ export class FindingsComponent implements OnInit {
     return colors;
   }
 
+  sortlines(models: DatePoint[]): DatePoint[] {
+    return models.sort((a, b) => {
+      if (a.date.getTime() < b.date.getTime()) {
+        return -1;
+      }
+      return 1;
+    });
+  }
 }

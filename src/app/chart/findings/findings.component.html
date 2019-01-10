@@ -1,5 +1,7 @@
 <h1>Preamble</h1>
 <p>I have used <a href="https://www.chartjs.org/">chart.js</a> to generate the following charts, with any chart that has a legend, the locations can be toggled on the chart by clicking the location on the key.</p>
+<p>I can only be sure this project runs in Chrome, if the graphs are empty and you are using chrome please contact me on 07449229661 or by <a href="mailto:nf287@live.mdx.ac.uk?Subject=Broken%20Website" target="_top">Email</a>.</p>
+
 <h1>Question 1 - Trends</h1>
 <div class="halfs">
   <div class="findings-text">
@@ -58,6 +60,31 @@
     <div class="halfsize">
       <canvas id="anomaly3"></canvas>
       <span>Anomaly 3 missing data</span>
+    </div>
+  </div>
+</div>
+
+<h1>Question 3 - Pipit and other wildlife</h1>
+<div class="halfs">
+  <div class="findings-text">
+    <div *ngFor="let finding of birdFindings">
+      <h2>{{finding.title}}</h2>
+      <h3>{{finding.summary}}</h3>
+      <p *ngFor="let paragraph of finding.paragraphs">{{paragraph}}</p>
+    </div>
+  </div>
+  <div class="findings-graphs">
+    <div class="halfsize">
+      <canvas id="birdFinding1"></canvas>
+      <span>Anomaly 1 Oxygen in water</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="birdFinding2"></canvas>
+      <span>Anomaly 2 arsenic poisoning</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="birdFinding3"></canvas>
+      <span>Anomaly 3 reduction of vegetation</span>
     </div>
   </div>
 </div>
