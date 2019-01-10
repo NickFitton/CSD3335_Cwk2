@@ -7,14 +7,12 @@ import {LineComponent} from './chart/bar/line.component';
 import {MatButtonModule, MatCardModule, MatNativeDateModule, MatSelectModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TemperatureComponent} from './chart/temperature/temperature.component';
-import { FindingsComponent } from './findings/findings.component';
+import { FindingsComponent } from './chart/findings/findings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LineComponent,
-    TemperatureComponent,
     FindingsComponent,
   ],
   imports: [

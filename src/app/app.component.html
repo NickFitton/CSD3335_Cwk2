@@ -23,40 +23,37 @@
   <p>Dataset received is {{data.length}} lines long</p>
   <p>Measurement definitions received is {{measurements.length}} lines long</p>
 
-  <div class="editing_card">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Manipulate Data</mat-card-title>
-        <mat-card-subtitle>Select measurements and areas</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field>
-          <mat-select placeholder="Measurement" [(ngModel)]="measure">
-            <mat-option *ngFor="let measure of measurements" [(value)]="measure">
-              {{measure.measure}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select placeholder="Area" [(ngModel)]="selectedAreas" multiple>
-            <mat-option *ngFor="let area of areas" [(value)]="area">
-              {{area}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="generateGraph()">Generate Graph</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+  <!--<div class="editing_card">-->
+    <!--<mat-card>-->
+      <!--<mat-card-header>-->
+        <!--<mat-card-title>Manipulate Data</mat-card-title>-->
+        <!--<mat-card-subtitle>Select measurements and areas</mat-card-subtitle>-->
+      <!--</mat-card-header>-->
+      <!--<mat-card-content>-->
+        <!--<mat-form-field>-->
+          <!--<mat-select placeholder="Measurement" [(ngModel)]="measure">-->
+            <!--<mat-option *ngFor="let measure of measurements" [(value)]="measure">-->
+              <!--{{measure.measure}}-->
+            <!--</mat-option>-->
+          <!--</mat-select>-->
+        <!--</mat-form-field>-->
+        <!--<mat-form-field>-->
+          <!--<mat-select placeholder="Area" [(ngModel)]="selectedAreas" multiple>-->
+            <!--<mat-option *ngFor="let area of areas" [(value)]="area">-->
+              <!--{{area}}-->
+            <!--</mat-option>-->
+          <!--</mat-select>-->
+        <!--</mat-form-field>-->
+      <!--</mat-card-content>-->
+      <!--<mat-card-actions>-->
+        <!--<button mat-button (click)="generateGraph()">Generate Graph</button>-->
+      <!--</mat-card-actions>-->
+    <!--</mat-card>-->
+  <!--</div>-->
 
-  <!--<app-findings [dataPoints]="data" [setAreas]="areas"></app-findings>-->
+  <app-findings [findingDataset]="data" [findingAreas]="areas"></app-findings>
 
-  <app-chartjsline-graph-component [dataPoints]="dataset" [graphType]="line">
-  </app-chartjsline-graph-component>
-
-  <app-chartjs-temperature-graph-component [dataPoints]="data" [existingAreas]="areas">
-  </app-chartjs-temperature-graph-component>
+  <!--<app-chartjsline-graph-component [dataPoints]="dataset" [graphType]="line">-->
+  <!--</app-chartjsline-graph-component>-->
 
 </div>

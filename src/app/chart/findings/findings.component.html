@@ -1,0 +1,27 @@
+<div class="halfs">
+  <div class="findings-text">
+    <div *ngFor="let finding of findings">
+      <h1>{{finding.title}}</h1>
+      <h2>{{finding.summary}}</h2>
+      <p *ngFor="let paragraph of finding.paragraphs">{{paragraph}}</p>
+    </div>
+  </div>
+  <div class="findings-graphs">
+    <div>
+      <canvas id="finding1"></canvas>
+      <span>Finding 1</span>
+    </div>
+    <div>
+      <canvas id="finding2a"></canvas>
+      <span>Finding 2a</span>
+    </div>
+    <div>
+      <canvas id="finding2b"></canvas>
+      <span>Finding 2b</span>
+    </div>
+    <div>
+      <canvas id="finding2c"></canvas>
+      <span>Finding 2c</span>
+    </div>
+  </div>
+</div>
