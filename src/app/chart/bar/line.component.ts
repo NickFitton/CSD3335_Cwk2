@@ -111,7 +111,7 @@ export class LineComponent implements OnInit {
       {
         type: this.chartType,
         data: {
-          labels: labels.map(label => label.toISOString()),
+          labels: labels.map(label => label.toDateString()),
           datasets: [
             {
               data: data,

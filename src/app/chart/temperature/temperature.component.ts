@@ -41,26 +41,16 @@ export class TemperatureComponent implements OnInit {
   convertToPoints(data: DataModel[]): PointModel[] {
     return data.map(item => {
       const endOfYear = new Date(item.sampleDate.getUTCFullYear() + 1, 0, 0);
-      const timeSinceStartOfYear = (endOfYear.getTime() - item.sampleDate.getTime()) / 31536000000 * 12;
-
-      return new PointModel(timeSinceStartOfYear, item.value);
-    });
-  }
-
-  sortDataPoints(models: DataModel[]): DataModel[] {
-    return models.sort((a, b) => {
-      if (a.sampleDate.getTime() < b.sampleDate.getTime()) {
-        return -1;
-      }
-      return 1;
+      const timeSinceStartOfYear = 12 - ((endOfYear.getTime() - item.sampleDate.getTime()) / 31536000000 * 12);
+      return new PointModel(timeSinceStartOfYear, item.value, item.location, item.sampleDate);
     });
   }
 
   setDataPoints(input: DataModel[][]) {
     const datasets = [];
+    const labels = [];
     const colors = this.generateColors(input.length);
     for (let i = 0; i < input.length; i++) {
-      input[i] = this.sortDataPoints(input[i]);
       const points: PointModel[] = this.convertToPoints(input[i]);
       datasets.push({
         label: this.areas[i],
@@ -76,6 +66,7 @@ export class TemperatureComponent implements OnInit {
     this.chart = new Chart('temperature', {
       type: 'scatter',
       data: {
+        labels: labels,
         datasets: datasets
       },
       options: {
@@ -84,7 +75,16 @@ export class TemperatureComponent implements OnInit {
             type: 'linear',
             position: 'bottom'
           }]
-        }
+        },
+          tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const dataPoint = <PointModel> dataset.data[tooltipItem.index];
+                    return `${dataPoint.location} - ${dataPoint.date.toDateString()}`;
+                }
+            }
+          }
       }
     });
     this.chart.update(1);
