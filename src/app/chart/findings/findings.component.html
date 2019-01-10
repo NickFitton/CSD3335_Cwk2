@@ -1,27 +1,36 @@
+<h1>Question 1 - Trends</h1>
 <div class="halfs">
   <div class="findings-text">
     <div *ngFor="let finding of findings">
-      <h1>{{finding.title}}</h1>
-      <h2>{{finding.summary}}</h2>
+      <h2>{{finding.title}}</h2>
+      <h3>{{finding.summary}}</h3>
       <p *ngFor="let paragraph of finding.paragraphs">{{paragraph}}</p>
     </div>
   </div>
   <div class="findings-graphs">
-    <div>
+    <div class="halfsize">
       <canvas id="finding1"></canvas>
-      <span>Finding 1</span>
+      <span>Finding 1 water temperatures over the years</span>
     </div>
-    <div>
+    <div class="halfsize">
       <canvas id="finding2a"></canvas>
-      <span>Finding 2a</span>
+      <span>Finding 2a - Alachlor levels</span>
     </div>
-    <div>
+    <div class="halfsize">
       <canvas id="finding2b"></canvas>
-      <span>Finding 2b</span>
+      <span>Finding 2b - Atrazine levels</span>
     </div>
-    <div>
-      <canvas id="finding2c"></canvas>
-      <span>Finding 2c</span>
+    <div class="halfsize">
+      <canvas id="finding3"></canvas>
+      <span>Finding 3 - Chlorodinine levels</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="finding4"></canvas>
+      <span>Finding 4 - Cyanides levels</span>
+    </div>
+    <div class="halfsize">
+      <canvas id="finding5"></canvas>
+      <span>Finding 5 - Iron levels</span>
     </div>
   </div>
 </div>
