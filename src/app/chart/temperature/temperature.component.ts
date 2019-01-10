@@ -100,7 +100,6 @@ export class TemperatureComponent implements OnInit {
       const dark = `#${rgbDark[0].toString(16)}${rgbDark[1].toString(16)}${rgbDark[2].toString(16)}`;
       colors.push([light, dark]);
     }
-    console.log(colors);
     return colors;
   }
 }

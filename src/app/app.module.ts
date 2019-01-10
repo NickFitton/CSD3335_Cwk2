@@ -8,12 +8,14 @@ import {MatButtonModule, MatCardModule, MatNativeDateModule, MatSelectModule} fr
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TemperatureComponent} from './chart/temperature/temperature.component';
+import { FindingsComponent } from './findings/findings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LineComponent,
     TemperatureComponent,
+    FindingsComponent,
   ],
   imports: [
     BrowserModule,
