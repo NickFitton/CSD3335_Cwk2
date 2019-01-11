@@ -14,19 +14,6 @@ import {TallyModel} from './tally.model';
 })
 export class FindingsComponent implements OnInit {
 
-  allAreas: string[] = [
-    'Boonsri',
-    'Kannika',
-    'Chai',
-    'Kohsoom',
-    'Somchair',
-    'Sakda',
-    'Busarakhan',
-    'Tansanee',
-    'Achara',
-    'Decha'
-  ];
-
   dataset: DataModel[];
   areas: string[];
   finding1Chart: Chart;
@@ -60,7 +47,9 @@ export class FindingsComponent implements OnInit {
       [
         'Temperature per year follows a yearly circadian rhythm, rising in the summer and dropping in the winter.',
         'There are a few outliers in the data, for example in Kohsoom on the 35th of July 2004 the temperature rose to 37C and in Decha ' +
-        'on the 16th August 2014 it dropped to 15C.'
+        'on the 16th August 2014 it dropped to 15C.',
+        'Scatter chart seemed like the most affective chart type as I wanted to represent hundreds of data points with data overlapping as little as possible, this wouldn\'t be possible with for example a bar chart,',
+        'I felt it was necessary to overlap all the years, this lead to a very clean graph whilst making it easier to read.'
       ]));
     this.findings.push(new FindingModel('Finding 2',
       'Herbicides',
@@ -69,25 +58,29 @@ export class FindingsComponent implements OnInit {
         ' locations, suggesting runoff into the river from one of the higher locations.',
         'These measurements were only significant between the years 2005 and 2007.',
         'I decided to use a scatter plot graph over a line graph for this data as multiple results were made a day' +
-        ' and it provided a clearer picture of the decline.'
+        ' and it provided a clearer picture of the decline.',
+        'I used two graphs so as not to over populate the results.'
       ]));
     this.findings.push(new FindingModel('Finding 3',
       'Chlorodinine',
       [
         'There was a drop in Chlorodinine levels in 7 of the locations at the start of 2015',
-        'The only erroneous measurement being a measurement from Kohsoom.'
+        'The only erroneous measurement being a measurement from Kohsoom.',
+        'Scatter plots clearly denote the movement in measurements. Other types such as line graph and bar graph wouldn\'t have as much clarity.'
       ]));
     this.findings.push(new FindingModel('Finding 4',
       'Cyanides',
       [
-        'The levels of Cyanides spiked in Decha in 2010 and 2012, suggesting dumping'
+        'The levels of Cyanides spiked in Decha in 2010 and 2012, suggesting dumping',
+        'A bar graph seemed like the most clear way to represent this data, a scatter plot would have looked too sparse.'
       ]));
     this.findings.push(new FindingModel('Finding 5',
       'Iron',
       [
-        'There was a massive spike in Group 8 iron levels on August 10th 2003.',
+        'There was a massive spike in a few locations (Busarakhan, Chai, Kannika, Sakda, Somchair, Kahsoom) iron levels on August 10th 2003.',
         ' The spikes indicate the levels were 20-37g/l maybe this was an event of dumping but as the spike only' +
-        ' occurred in one reading so this may be due to a faulty sensor.'
+        ' occurred in one reading so this may be due to a faulty sensor.',
+        'I used a line chart for this finding as it helps clearly denote where the spike is on the graph.'
       ]));
     this.anomalies.push(new FindingModel('Anomaly 1',
       'Chai water measurements',
@@ -95,27 +88,32 @@ export class FindingsComponent implements OnInit {
         'The consistency of water measurements in Chai shot up and other locations did not do the same.',
         'I chose to use a scatter plot for this graph as I felt that a line graph didn\'t properly' +
         ' represent the consistency without the point markers.',
-        'Also included is the measurements for Boonsri for a comparison of the consistencies'
+        'Also included is the measurements for Boonsri for a comparison of the consistencies',
       ]));
     this.anomalies.push(new FindingModel('Anomaly 2',
       'Chai COD-Cr measurements',
       [
         'COD-Cr in Chai was not recorded between May 2005 and July 2006.',
-        'This may be due to a broken sensor, the readings were erratic before and after the lack of recordings.'
+        'This may be due to a broken sensor, the readings were erratic before and after the lack of recordings.',
+        'A bar chart seemed the best way to represent this value as a line chart would not have shows that there were null values between two steps (without manipulating the data more)',
+        'To generate this graph I tallied up the number of records by year after filtering by location and measure'
       ]));
     this.anomalies.push(new FindingModel('Anomaly 3',
       'Missing data',
       [
         'There are no reading for Nickel from 2000 to the end of 2001.',
         'This may be due to either the data being missing or a malicious entity removing the data.',
-        'I chose to use a bar graph for this result because show the missing data unlike a line graph which would draw over the space.'
+        'I chose to use a bar graph for this result because show the missing data unlike a line graph which would draw over the space.',
+        'A bar chart seemed the best way to represent this value as a line chart would not have shows that there were null values between two steps (without manipulating the data more)',
+        'To generate this graph I tallied up the number of records by year after filtering by location and measure'
       ]));
     this.birdFindings.push(new FindingModel('Finding 1',
       'COD-Cr deters fish',
       [
         'COD-Cr represents the oxygen deficiency of water, fish tend to be dettered from living in low oxygen envrironments.',
         'If the Pipit bird eats wildlife that lives in the water around these areas, they would have to migrate to other locations to eat.',
-        'As seen in the graph, COD-Cr ratings in Tansanee become extremely high, suggesting there will not be much wildlife living there.'
+        'As seen in the graph, COD-Cr ratings in Tansanee become extremely high, suggesting there will not be much wildlife living there.',
+        'A filled line chart line chart seemed the most sensible method of representing the peaks in the measurements as a scatter graph would not have directed the reader to the points as clearly.'
       ]));
     this.birdFindings.push(new FindingModel('Finding 2',
       'Arsenic',
@@ -126,16 +124,19 @@ export class FindingsComponent implements OnInit {
         'Between 2008 and 2016 arsenic readings have slowly increased in some areas (Chai, Kannika, Sakda, Somchair, Tansanee),' +
         ' the data between these locations has a strong positive correlation.',
         'One reading (Tansanee - August 9, 2015) was way over the safe level of Arsenic (10μg) at 17μg,' +
-        ' this may be due to an erroneous reading but is definitely worrying.'
+        ' this may be due to an erroneous reading but is definitely worrying.',
+        'A line graph was the most fitting as I was trying to show a continuous trend over time.'
       ]));
     this.birdFindings.push(new FindingModel('Finding 3',
       'Damage to plantlife',
       [
         'The water supplies in some locations (Boonsri, Busarakhan, Chai, Kannika, Kohsoom, Sakda, Somchair, Tansanee)' +
         ' have severe levels of Bicarbonates in the water supply.',
+        'The maximum safe level of Bicarbonate in water is 150ppm',
         'Bicarbonates damage plants that live near the waters, giving the wildlife less vegetation to eat/area to scavenge.',
         'The data shows a yearly circadian cycle, meaning the cause may be seasonal' +
-        ' or there is a time of year where pollutants are more likely to be produced by entities.'
+        ' or there is a time of year where pollutants are more likely to be produced by entities.',
+        'The line graph was the most effective for this finding. A bar chart would have been good for comparing the data at a single time but I wanted a continuous flow of data.'
       ]));
   }
 
@@ -198,7 +199,7 @@ export class FindingsComponent implements OnInit {
       });
     }
 
-    this.finding1Chart = this.defineScatterChart(datasets, [], 'finding1', 'scatter');
+    this.finding1Chart = this.defineScatterChart(datasets, [], 'finding1', 'scatter', 'Month of the year', 'Water Temperature (°C)');
     this.finding1Chart.update(1);
   }
 
@@ -247,9 +248,21 @@ export class FindingsComponent implements OnInit {
       return datasets;
     });
 
-    this.finding2aChart = this.defineLongTimeScatterChart(materialDatasets[0], [], 'finding2a', 'scatter');
+    this.finding2aChart = this.defineLongTimeScatterChart(
+      materialDatasets[0],
+      [],
+      'finding2a',
+      'scatter',
+      'Date of Recording',
+      'Alachlor level (μg)');
     this.finding2aChart.update(1);
-    this.finding2bChart = this.defineLongTimeScatterChart(materialDatasets[1], [], 'finding2b', 'scatter');
+    this.finding2bChart = this.defineLongTimeScatterChart(
+      materialDatasets[1],
+      [],
+      'finding2b',
+      'scatter',
+      'Date of Recording',
+      'Atrazine level (μg)');
     this.finding2bChart.update(1);
   }
 
@@ -293,7 +306,13 @@ export class FindingsComponent implements OnInit {
     }
 
 
-    this.finding3Chart = this.defineLongTimeScatterChart(datasets, [], 'finding3', 'scatter');
+    this.finding3Chart = this.defineLongTimeScatterChart(
+      datasets,
+      [],
+      'finding3',
+      'scatter',
+      'Date of Recording',
+      'Chlorodinine level (μg)');
     this.finding3Chart.update(1);
   }
 
@@ -331,7 +350,7 @@ export class FindingsComponent implements OnInit {
     }
 
 
-    this.finding4Chart = this.defineLongTimeScatterChart(datasets, [], 'finding4', 'bar');
+    this.finding4Chart = this.defineLongTimeScatterChart(datasets, [], 'finding4', 'bar', 'Date of Recording', 'Cyanide Levels (μg)');
     this.finding4Chart.update(1);
   }
 
@@ -374,7 +393,7 @@ export class FindingsComponent implements OnInit {
     }
 
 
-    this.finding5Chart = this.defineLongTimeScatterChart(datasets, [], 'finding5', 'line');
+    this.finding5Chart = this.defineLongTimeScatterChart(datasets, [], 'finding5', 'line', 'Date of Recording', 'Iron Levels (μg)');
     this.finding5Chart.update(1);
   }
 
@@ -413,7 +432,7 @@ export class FindingsComponent implements OnInit {
     }
 
 
-    this.anomaly1Chart = this.defineLongTimeScatterChart(datasets, [], 'anomaly1', 'scatter');
+    this.anomaly1Chart = this.defineLongTimeScatterChart(datasets, [], 'anomaly1', 'scatter', 'Date of Recording', 'Water Temperature (°C)');
     this.anomaly1Chart.update(1);
   }
 
@@ -444,7 +463,7 @@ export class FindingsComponent implements OnInit {
       backgroundColor: color[0],
       borderColor: color[1],
       borderWidth: 1
-    }], [], 'anomaly2', 'bar');
+    }], [], 'anomaly2', 'bar', 'Date of Recording', 'Oxygen Demand (mg/l)');
   }
 
   anomaly3(data: DataModel[]) {
@@ -475,7 +494,7 @@ export class FindingsComponent implements OnInit {
       backgroundColor: color[0],
       borderColor: color[1],
       borderWidth: 1
-    }], [], 'anomaly3', 'bar');
+    }], [], 'anomaly3', 'bar', 'Month of Recordings', 'Nickel content (μg)');
     this.anomaly3Chart.update(1);
   }
 
@@ -501,7 +520,7 @@ export class FindingsComponent implements OnInit {
       });
     }
 
-    this.birdFinding1Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding1', 'line');
+    this.birdFinding1Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding1', 'line', 'Month of Recordings', 'Chemical Oxygen Demand (Cr)');
     this.birdFinding1Chart.update(1);
   }
 
@@ -531,16 +550,18 @@ export class FindingsComponent implements OnInit {
         label: desiredAreas[i],
         labelColor: colors[i],
         data: points,
-        pointRadius: 2,
+        fill: false,
+        lineTension: 0,
+        pointRadius: 0,
         backgroundColor: colors[i][0],
         borderColor: colors[i][1],
-        borderWidth: 1
+        borderWidth: 2
       });
     }
     datasets = datasets.filter(aDataset => aDataset.data.length > 0);
 
 
-    this.birdFinding2Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding2', 'scatter');
+    this.birdFinding2Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding2', 'line', 'Month of Recording', 'Arsenic Level (μg)');
     this.birdFinding2Chart.update(1);
   }
 
@@ -583,7 +604,7 @@ export class FindingsComponent implements OnInit {
     datasets = datasets.filter(aDataset => aDataset.data.length > 0);
 
 
-    this.birdFinding3Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding3', 'line');
+    this.birdFinding3Chart = this.defineLongTimeScatterChart(datasets, [], 'birdFinding3', 'line', 'Month of Recording', 'Bicarbonates (mg/l)');
     this.birdFinding3Chart.update(1);
   }
 
@@ -599,7 +620,7 @@ export class FindingsComponent implements OnInit {
     });
   }
 
-  defineLongTimeScatterChart(datasets, labels: string[], chartName: string, chartType: string) {
+  defineLongTimeScatterChart(datasets, labels: string[], chartName: string, chartType: string, xLabel: string, yLabel: string) {
     return new Chart(chartName, {
       type: chartType,
       data: {
@@ -611,7 +632,17 @@ export class FindingsComponent implements OnInit {
           xAxes: [{
             type: 'time',
             distribution: 'linear',
-            position: 'bottom'
+            position: 'bottom',
+            scaleLabel: {
+              display: true,
+              labelString: xLabel
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: yLabel
+            }
           }]
         },
         tooltips: {
@@ -627,7 +658,7 @@ export class FindingsComponent implements OnInit {
     });
   }
 
-  defineScatterChart(datasets, labels: string[], chartName: string, chartType: string) {
+  defineScatterChart(datasets, labels: string[], chartName: string, chartType: string, xLabel: string, yLabel: string) {
     return new Chart(chartName, {
       type: chartType,
       data: {
@@ -637,8 +668,18 @@ export class FindingsComponent implements OnInit {
       options: {
         scales: {
           xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: xLabel
+            },
             type: 'linear',
             position: 'bottom'
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: yLabel
+            }
           }]
         },
         tooltips: {
